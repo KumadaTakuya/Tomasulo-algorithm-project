@@ -17,23 +17,25 @@ void station::saveInStation(const int stationNumber,const instruction ins,const 
 	this->stationNumber = stationNumber;
 	this->registerNumber = ins.r1;
 	this->CycleTime = cycletime;
+	num1 = -1;
+	num2 = -1;
 
 	if (ins.type == 0)
 		type = 1;
 	else
 		type = ins.type;
 	this->order = order;
-	//¥ı¬İRAT¡A¦³«h¥Î¡A¨S¥Î´N¨Ï¥ÎRF¡AµM«á§ó·sRAT
-	if (RAT.search(ins.r2).isSavingRS)//¥¿¦b³Q¨Ï¥Î
+	//å…ˆçœ‹RATï¼Œæœ‰å‰‡ç”¨ï¼Œæ²’ç”¨å°±ä½¿ç”¨RFï¼Œç„¶å¾Œæ›´æ–°RAT
+	if (RAT.search(ins.r2).isSavingRS)//æ­£åœ¨è¢«ä½¿ç”¨
 		ra1 = RAT.search(ins.r2);
-	else//¨S³Q¨Ï¥Î¡Aª½±µ¨ú¥Îregister
+	else//æ²’è¢«ä½¿ç”¨ï¼Œç›´æ¥å–ç”¨register
 		num1 = RF.num[ins.r2];
 
 	if (ins.type == 0)
 		num2 = ins.r3;
-	else if (RAT.search(ins.r3).isSavingRS)//¥¿¦b³Q¨Ï¥Î
+	else if (RAT.search(ins.r3).isSavingRS)//æ­£åœ¨è¢«ä½¿ç”¨
 		ra2 = RAT.search(ins.r3);
-	else//¨S³Q¨Ï¥Î¡Aª½±µ¨ú¥Îregister
+	else//æ²’è¢«ä½¿ç”¨ï¼Œç›´æ¥å–ç”¨register
 		num2 = RF.num[ins.r3];	
 }
 const bool station::updateStation(const int number,const int order)
@@ -107,7 +109,7 @@ const station ReservationStation::drop(const int ALUType,const int cycletime)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			if (s1[i].isUsing && s1[i].CycleTime != cycletime && s1[i].num1 != -1 && s1[i].num2 != -1)//½T«Onum¼Æ¦r³£¦³¨ì¡Acycletime¤£¤@¼Ë
+			if (s1[i].isUsing && s1[i].CycleTime != cycletime && s1[i].num1 != -1 && s1[i].num2 != -1)//ç¢ºä¿numæ•¸å­—éƒ½æœ‰åˆ°ï¼Œcycletimeä¸ä¸€æ¨£
 			{
 				tmp = s1[i];
 				s1[i].isUsing = false;
